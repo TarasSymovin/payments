@@ -110,3 +110,8 @@
         color: #777;
     }
 }
+
+.error {
+    color: red;
+    margin-left: 5px;
+}

@@ -78,15 +78,18 @@ public class PaymentMySqlDAO implements PaymentDAO {
     }
 
     @Override
-    public void makeTransfer(Payment payment) {
+    public boolean makeTransfer(Payment payment) {
+        boolean result = false;
+
         Connection connection = Connector.getConnection();
 
         try {
+            assert connection != null;
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            DAOFactory.getDAOFactory().getBankCardDAO().subtractBalance(payment.getPaymentSum(), payment.getSenderCard());
-            DAOFactory.getDAOFactory().getBankCardDAO().addBalance(payment.getPaymentSum(), payment.getRecipientCard());
-            setPaymentState(payment, getPaymentState(1));
+            result = DAOFactory.getDAOFactory().getBankCardDAO().subtractBalance(payment.getPaymentSum(), payment.getSenderCard(), connection);
+            result = DAOFactory.getDAOFactory().getBankCardDAO().addBalance(payment.getPaymentSum(), payment.getRecipientCard(), connection);
+            result = setPaymentState(payment, getPaymentState(1), connection);
 
             connection.commit();
         } catch (SQLException exception) {
@@ -97,21 +100,27 @@ public class PaymentMySqlDAO implements PaymentDAO {
             }
             exception.printStackTrace();
         }
+
+        return result;
     }
 
-    public void setPaymentState(Payment payment, PaymentState paymentState) {
-        try (Connection connection = Connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(PaymentSQL.SET_PAYMENT_STATE)) {
+    public boolean setPaymentState(Payment payment, PaymentState paymentState, Connection connection) {
+        boolean result = false;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(PaymentSQL.SET_PAYMENT_STATE)) {
             preparedStatement.setInt(1, paymentState.getPaymentStateId());
             preparedStatement.setInt(2, payment.getPaymentId());
 
             if (preparedStatement.executeUpdate() > 0) {
                 payment.setPaymentState(paymentState);
+                result = true;
             }
 
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+
+        return result;
     }
 
     @Override

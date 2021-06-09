@@ -44,13 +44,12 @@
                     <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto">
                             <h3 class="login-heading mb-4"><fmt:message key="login.label"/></h3>
-                            <form name="loginForm" method="post" action="${pageContext.request.contextPath}/controller">
+                            <form id="login" name="loginForm" method="post" action="${pageContext.request.contextPath}/controller">
                                 <input type="hidden" name="command" value="login"/>
                                 <div class="form-label-group">
                                     <input type="text" id="inputLogin" class="form-control" name="login" placeholder="<fmt:message key="login.form.label.login"/>" required autofocus value="${login}">
                                     <label for="inputLogin"><fmt:message key="login.form.label.login"/></label>
                                 </div>
-
                                 <div class="form-label-group">
                                     <input type="password" id="inputPassword" class="form-control" name="pass" placeholder="<fmt:message key="login.form.label.password"/>" required>
                                     <label for="inputPassword"><fmt:message key="login.form.label.password"/></label>
@@ -65,3 +64,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('form[id="login"]').validate({
+            rules: {
+                inputLogin: 'required',
+                inputPassword: {
+                    required: true,
+                    minlength: 8,
+                }
+            },
+            messages: {
+                inputLogin: 'This field is required',
+                inputPassword: {
+                    minlength: 'Password must be at least 8 characters long'
+                }
+            },
+            errorElement: "div", // default is 'label'
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+</script>
+

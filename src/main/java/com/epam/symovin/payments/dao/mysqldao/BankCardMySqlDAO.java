@@ -120,11 +120,10 @@ public class BankCardMySqlDAO implements BankCardDAO {
     }
 
     @Override
-    public boolean subtractBalance(BigDecimal sum, BankCard bankCard) {
+    public boolean subtractBalance(BigDecimal sum, BankCard bankCard, Connection connection) {
         boolean result = false;
 
-        try (Connection connection = Connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(BankCardSQL.SUBTRACT_BALANCE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(BankCardSQL.SUBTRACT_BALANCE)) {
             preparedStatement.setBigDecimal(1, sum);
             preparedStatement.setString(2, bankCard.getCardNumber());
 
@@ -139,11 +138,10 @@ public class BankCardMySqlDAO implements BankCardDAO {
     }
 
     @Override
-    public boolean addBalance(BigDecimal sum, BankCard bankCard) {
+    public boolean addBalance(BigDecimal sum, BankCard bankCard, Connection connection) {
         boolean result = false;
 
-        try (Connection connection = Connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(BankCardSQL.ADD_BALANCE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(BankCardSQL.ADD_BALANCE)) {
             preparedStatement.setBigDecimal(1, sum);
             preparedStatement.setString(2, bankCard.getCardNumber());
 

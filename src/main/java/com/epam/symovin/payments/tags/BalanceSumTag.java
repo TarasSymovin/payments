@@ -15,7 +15,7 @@ public class BalanceSumTag extends TagSupport {
     }
 
     public int doStartTag() {
-        if(user == null){
+        if(user == null || user.getBankCards() == null){
             return SKIP_BODY;
         }
 

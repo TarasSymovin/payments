@@ -78,7 +78,7 @@
         </a>
     </c:forEach>
     <c:if test="${(user.bankCards.size() lt 3) and (user.active eq true)}">
-        <a href="controller?command=addCard">
+        <a href="${pageContext.request.contextPath}/controller?command=addCard">
             <div class="container d-flex justify-content-center text-white mt-5">
                 <div class="card p-4">
                     <div class="card-top">

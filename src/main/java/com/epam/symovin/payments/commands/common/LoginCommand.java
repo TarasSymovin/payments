@@ -4,7 +4,6 @@ import com.epam.symovin.payments.Path;
 import com.epam.symovin.payments.commands.Command;
 import com.epam.symovin.payments.dao.factory.DAOFactory;
 import com.epam.symovin.payments.entities.User;
-import com.epam.symovin.payments.services.AuthorizationService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ public class LoginCommand implements Command {
         String password = request.getParameter("pass");
         Path path = new Path(Path.PAGE_LOGIN, true);
 
-        User user = AuthorizationService.getInstance().login(login, password);
+        User user = DAOFactory.getDAOFactory().getUserDAO().getUser(login, password);
 
         if (user != null){
             session.setAttribute("user", user);

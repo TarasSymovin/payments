@@ -5,7 +5,6 @@ import com.epam.symovin.payments.commands.Command;
 import com.epam.symovin.payments.dao.factory.DAOFactory;
 import com.epam.symovin.payments.entities.Payment;
 import com.epam.symovin.payments.entities.User;
-import com.epam.symovin.payments.services.PaymentService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +17,12 @@ public class SubmitPaymentCommand implements Command {
         Payment payment = DAOFactory.getDAOFactory().getPaymentDAO().getPayment(Integer.parseInt(request.getParameter("payment")), String.valueOf(request.getSession().getAttribute("locale")));
         Path path = new Path(Path.FAILED_PAGE, true);
 
-        if (PaymentService.getInstance().submitPayment(payment)){
-            User user = (User) request.getSession().getAttribute("user");
-            request.setAttribute("user", DAOFactory.getDAOFactory().getUserDAO().getUser(user.getLogin(), user.getPassword()));
-            path = new Path(Path.SUCCESS_PAYMENT_PAGE, true);
+        if (payment.getPaymentSum().compareTo(payment.getSenderCard().getCardBalance()) <= 0){
+            if (DAOFactory.getDAOFactory().getPaymentDAO().makeTransfer(payment)){
+                User user = (User) request.getSession().getAttribute("user");
+                request.setAttribute("user", DAOFactory.getDAOFactory().getUserDAO().getUser(user.getLogin(), user.getPassword()));
+                path = new Path(Path.SUCCESS_PAYMENT_PAGE, true);
+            }
         }
 
         return path;

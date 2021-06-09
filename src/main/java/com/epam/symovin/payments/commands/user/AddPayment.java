@@ -15,12 +15,15 @@ import java.math.BigDecimal;
 public class AddPayment implements Command {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Path path = new Path(Path.FAILED_PAGE, true);
-
+        Path path = new Path(Path.SUBMIT_PAYMENT_PAGE, true);
         Payment payment = new Payment();
 
         BankCard sentCard = (BankCard) request.getSession().getAttribute("card");
         BankCard recipientCard = DAOFactory.getDAOFactory().getBankCardDAO().getBankCardByNumber(request.getParameter("recipientCard"));
+
+        if (recipientCard == null){
+            return new Path(Path.FAILED_PAGE, true);
+        }
 
         payment.setPaymentSum(BigDecimal.valueOf(Long.parseLong(request.getParameter("paymentSum"))));
         payment.setDescription(request.getParameter("paymentDescription"));
@@ -30,7 +33,6 @@ public class AddPayment implements Command {
         if (DAOFactory.getDAOFactory().getPaymentDAO().createPayment(payment)){
             payment = DAOFactory.getDAOFactory().getPaymentDAO().getPayment(payment.getPaymentId(), request.getParameter("locale"));
             request.getSession().setAttribute("payment", payment);
-            path = new Path(Path.SUBMIT_PAYMENT_PAGE, true);
         }
 
         return path;
