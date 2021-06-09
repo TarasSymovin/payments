@@ -1,0 +1,17 @@
+body {
+    background-color: #eee
+}
+
+.card {
+    width: 355px;
+    background-color: #9C27B0;
+    border-radius: 5px
+}
+
+.card-image {
+    width: 30px
+}
+
+a:hover{
+    text-decoration: none;
+}
