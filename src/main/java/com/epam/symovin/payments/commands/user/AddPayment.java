@@ -18,8 +18,10 @@ public class AddPayment implements Command {
         Path path = new Path(Path.SUBMIT_PAYMENT_PAGE, true);
         Payment payment = new Payment();
 
+        String recipientCardNumber = request.getParameter("recipientCard").replaceAll("\\s+","");
+
         BankCard sentCard = (BankCard) request.getSession().getAttribute("card");
-        BankCard recipientCard = DAOFactory.getDAOFactory().getBankCardDAO().getBankCardByNumber(request.getParameter("recipientCard"));
+        BankCard recipientCard = DAOFactory.getDAOFactory().getBankCardDAO().getBankCardByNumber(recipientCardNumber);
 
         if (recipientCard == null){
             return new Path(Path.FAILED_PAGE, true);

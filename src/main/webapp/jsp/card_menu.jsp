@@ -68,7 +68,7 @@
                         <div class="card-bottom mt-4">
                             <div><span>${user.userInfo.firstName} ${user.userInfo.lastName}</span></div>
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <h6 id="cardNumber">${item.cardNumber}</h6>
+                                <h6 id="cardNumber"><ct:card-split cardNumber="${item.cardNumber}"/></h6>
                                 <button class="btn btn-outline-info" type="submit"><fmt:message key="button.details"/></button>
                             </div>
                         </div>

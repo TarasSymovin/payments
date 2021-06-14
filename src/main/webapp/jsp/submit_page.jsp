@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tld/customtags.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -54,7 +55,7 @@
                                             </td>
                                             <td width="50%" align="left"
                                                 style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                                ${payment.senderCard.cardNumber}
+                                                <ct:card-split cardNumber="${payment.senderCard.cardNumber}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -74,7 +75,7 @@
                                             </td>
                                             <td width="50%" align="left"
                                                 style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                ${payment.recipientCard.cardNumber}
+                                                <ct:card-split cardNumber="${payment.recipientCard.cardNumber}"/>
                                             </td>
                                         </tr>
                                         <tr>

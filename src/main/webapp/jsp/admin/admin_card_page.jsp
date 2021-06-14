@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tld/customtags.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:import url="../head.jsp"/>
@@ -59,7 +60,7 @@
     <c:forEach var="item" items="${cards}">
     <c:set var="k" value="${k+1}"/>
     <tr>
-        <td class="text-center">${item.cardNumber}</td>
+        <td class="text-center"><ct:card-split cardNumber="${item.cardNumber}"/></td>
         <td>${cardUser.userInfo.firstName} ${cardUser.userInfo.lastName}</td>
         <td>${item.cardBalance}</td>
         <td class="text-center">${item.cardIban}</td>

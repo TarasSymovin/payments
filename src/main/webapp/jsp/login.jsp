@@ -65,30 +65,42 @@
     </div>
 </div>
 
+<%--<script>--%>
+<%--    $(document).ready(function() {--%>
+<%--        $('form[id="login"]').validate({--%>
+<%--            rules: {--%>
+<%--                inputLogin: 'required',--%>
+<%--                inputPassword: {--%>
+<%--                    required: true,--%>
+<%--                }--%>
+<%--            },--%>
+<%--            messages: {--%>
+<%--                inputLogin: 'This field is required',--%>
+<%--                inputPassword: 'This field is required',--%>
+<%--            },--%>
+<%--            errorElement: "div",--%>
+<%--            errorPlacement: function(error, element) {--%>
+<%--                error.insertAfter(element);--%>
+<%--            },--%>
+<%--            submitHandler: function(form) {--%>
+<%--                form.submit();--%>
+<%--            }--%>
+<%--        });--%>
+<%--    });--%>
+<%--</script>--%>
+
 <script>
-    $(document).ready(function() {
-        $('form[id="login"]').validate({
-            rules: {
-                inputLogin: 'required',
-                inputPassword: {
-                    required: true,
-                    minlength: 8,
-                }
-            },
-            messages: {
-                inputLogin: 'This field is required',
-                inputPassword: {
-                    minlength: 'Password must be at least 8 characters long'
-                }
-            },
-            errorElement: "div", // default is 'label'
-            errorPlacement: function(error, element) {
-                error.insertAfter(element);
-            },
-            submitHandler: function(form) {
-                form.submit();
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+    $( "#login" ).validate({
+        rules: {
+            pass: {
+                required: true,
+                minlength: 3
             }
-        });
+        }
     });
 </script>
 

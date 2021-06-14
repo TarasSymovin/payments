@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tld/customtags.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -72,7 +73,7 @@
                 <div class="card-bottom mt-4">
                     <div><span>${user.userInfo.firstName} ${user.userInfo.lastName}</span></div>
                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h6 id="cardNumber">${card.cardNumber}</h6>
+                        <h6 id="cardNumber"><ct:card-split cardNumber="${card.cardNumber}"/></h6>
                         <c:if test="${user.active}">
                             <c:choose>
                                 <c:when test="${card.block eq false}">
@@ -151,7 +152,7 @@
                 <td>${item.paymentState.paymentState}</td>
             </c:when>
             </c:choose>
-            <td class="text-center">${item.recipientCard.cardNumber}</td>
+            <td class="text-center"><ct:card-split cardNumber="${item.recipientCard.cardNumber}"/></td>
             <td class="text-center">
                 <form action="controller" name="submitPayment" method="get">
                     <input type="hidden" name="command" value="submitPaymentPage">
